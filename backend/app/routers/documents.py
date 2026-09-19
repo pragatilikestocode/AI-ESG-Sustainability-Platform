@@ -135,8 +135,19 @@ async def ask_document(request: AskRequest):
     )
 
     # 6. Return answer and retrieved sources
+    sources = []
+
+    for i in range(len(retrieved_documents)):
+
+        sources.append({
+            "filename": results["metadatas"][0][i]["filename"],
+            "page": results["metadatas"][0][i]["page"],
+            "content": retrieved_documents[i],
+            "distance": results["distances"][0][i]
+        })
+
     return {
         "question": request.query,
         "answer": answer,
-        "sources": results["metadatas"][0]
+        "sources": sources
     }
